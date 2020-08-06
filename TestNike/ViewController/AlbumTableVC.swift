@@ -23,6 +23,8 @@ class AlbumTableVC: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = "Albums"
+        
         self.albumTable.dataSource = self
         self.albumTable.delegate = self
         self.albumTable.register(AlbumTableCell.self, forCellReuseIdentifier: "AlbumCell")
@@ -33,6 +35,7 @@ class AlbumTableVC: UIViewController{
     }
     
     func populate(){
+        Spinner.shared.startSpinner(viewController: self)
         NetworkManager.shared.fetchRSSFeed { (feedResult) in
             switch feedResult{
             case .success(let feedDataModel):
@@ -45,9 +48,11 @@ class AlbumTableVC: UIViewController{
                     }
                 }
                 DispatchQueue.main.async {
+                    Spinner.shared.stopSpinner()
                     self.albumTable.reloadData()
                 }
             case .failure(let error):
+                Spinner.shared.stopSpinner()
                 print(error)
             }
         }
