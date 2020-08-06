@@ -23,6 +23,8 @@ class AlbumTableVC: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = "Albums"
+        
         self.albumTable.dataSource = self
         self.albumTable.delegate = self
         self.albumTable.register(AlbumTableCell.self, forCellReuseIdentifier: "AlbumCell")
